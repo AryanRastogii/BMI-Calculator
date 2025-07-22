@@ -10,13 +10,19 @@ public class BMICalculator extends JFrame implements ActionListener {
     JLabel resultLabel;
     JProgressBar bmiBar;
 
-    public BMICalculator() {
+    private User currentUser;
+    private UserManager userManager;
+
+    public BMICalculator(User user, UserManager userManager) {
+        this.currentUser = user;
+        this.userManager = userManager;
+
         setTitle("BMI Calculator");
         setSize(800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(6, 2, 10, 10));
 
-        
+
         JLabel feetLabel = new JLabel("Height (feet):");
         feetField = new JTextField();
 
@@ -32,7 +38,7 @@ public class BMICalculator extends JFrame implements ActionListener {
         calculateButton.addActionListener(this);
         clearButton.addActionListener(this);
 
-        
+
         bmiChart = new JTextArea();
         bmiChart.setEditable(false);
         bmiChart.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -45,7 +51,7 @@ public class BMICalculator extends JFrame implements ActionListener {
                 "Obese       : 30 and above\n"
         );
 
-        
+
         add(feetLabel);
         add(feetField);
         add(inchesLabel);
@@ -55,7 +61,7 @@ public class BMICalculator extends JFrame implements ActionListener {
         add(calculateButton);
         add(clearButton);
         add(new JLabel("BMI Range Chart:"));
-        add(new JScrollPane(bmiChart)); 
+        add(new JScrollPane(bmiChart));
 
         resultLabel = new JLabel("Result will appear here.");
         resultLabel.setFont(new Font("Arial", Font.BOLD, 14));
@@ -67,7 +73,7 @@ public class BMICalculator extends JFrame implements ActionListener {
         add(resultLabel);
         add(bmiBar);
 
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -106,6 +112,10 @@ public class BMICalculator extends JFrame implements ActionListener {
                     color = Color.RED;
                 }
 
+                String record = String.format("BMI: %.2f (%s) on %s", bmi, status, new java.util.Date());
+                currentUser.addBmiRecord(record);
+                userManager.save();
+
                 resultLabel.setText(String.format("Your BMI: %.2f (%s)", bmi, status));
                 resultLabel.setForeground(color);
 
@@ -119,7 +129,10 @@ public class BMICalculator extends JFrame implements ActionListener {
         }
     }
 
+    // Option 1: Remove main method entirely
+    /*
     public static void main(String[] args) {
-        new BMICalculator();
+        new LoginFrame();
     }
+    */
 }
