@@ -14,7 +14,7 @@ public class BMICalculator extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(6, 2, 10, 10));
 
-        // Input fields
+        
         JLabel feetLabel = new JLabel("Height (feet):");
         feetField = new JTextField();
 
@@ -30,7 +30,7 @@ public class BMICalculator extends JFrame implements ActionListener {
         calculateButton.addActionListener(this);
         clearButton.addActionListener(this);
 
-        // BMI chart
+        
         bmiChart = new JTextArea();
         bmiChart.setEditable(false);
         bmiChart.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -43,7 +43,7 @@ public class BMICalculator extends JFrame implements ActionListener {
                 "Obese       : 30 and above\n"
         );
 
-        // Add components
+        
         add(feetLabel);
         add(feetField);
         add(inchesLabel);
@@ -53,9 +53,9 @@ public class BMICalculator extends JFrame implements ActionListener {
         add(calculateButton);
         add(clearButton);
         add(new JLabel("BMI Range Chart:"));
-        add(new JScrollPane(bmiChart)); // Scrollable chart
+        add(new JScrollPane(bmiChart)); 
 
-        setLocationRelativeTo(null); // center window
+        setLocationRelativeTo(null); 
         setVisible(true);
     }
 
