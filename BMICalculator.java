@@ -7,6 +7,8 @@ public class BMICalculator extends JFrame implements ActionListener {
     JTextField feetField, inchesField, weightField;
     JButton calculateButton, clearButton;
     JTextArea bmiChart;
+    JLabel resultLabel;
+    JProgressBar bmiBar;
 
     public BMICalculator() {
         setTitle("BMI Calculator");
@@ -55,6 +57,16 @@ public class BMICalculator extends JFrame implements ActionListener {
         add(new JLabel("BMI Range Chart:"));
         add(new JScrollPane(bmiChart)); 
 
+        resultLabel = new JLabel("Result will appear here.");
+        resultLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        bmiBar = new JProgressBar(0, 50);
+        bmiBar.setStringPainted(true);
+
+        add(resultLabel);
+        add(bmiBar);
+
         setLocationRelativeTo(null); 
         setVisible(true);
     }
@@ -76,14 +88,26 @@ public class BMICalculator extends JFrame implements ActionListener {
                 double heightInMeters = totalInches * 0.0254;
                 double bmi = weight / (heightInMeters * heightInMeters);
 
+                bmiBar.setValue((int) bmi);
                 String status;
-                if (bmi < 18.5) status = "Underweight";
-                else if (bmi < 25) status = "Normal";
-                else if (bmi < 30) status = "Overweight";
-                else status = "Obese";
+                Color color;
 
-                JOptionPane.showMessageDialog(this,
-                        String.format("Your BMI is: %.2f\nCategory: %s", bmi, status));
+                if (bmi < 18.5) {
+                    status = "Underweight";
+                    color = Color.BLUE;
+                } else if (bmi < 25) {
+                    status = "Normal";
+                    color = Color.GREEN;
+                } else if (bmi < 30) {
+                    status = "Overweight";
+                    color = Color.ORANGE;
+                } else {
+                    status = "Obese";
+                    color = Color.RED;
+                }
+
+                resultLabel.setText(String.format("Your BMI: %.2f (%s)", bmi, status));
+                resultLabel.setForeground(color);
 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter numbers.");
